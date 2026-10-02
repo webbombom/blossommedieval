@@ -3,478 +3,203 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escola Mágica Ancestral Rocha Chueiri</title>
+  <title>Escola Mágica Ancestral Rocha Chueiri - RPG Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=MedievalSharp&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --gold: #d4af37;
-      --gold-dark: #8c6d1f;
-      --parchment: #f2e3c6;
-      --bg-dark: #0f0a06;
-      --border-wood: #3a2212;
-      --crimson: #800000;
-      --mana-blue: #1e90ff;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      background-color: var(--bg-dark);
-      color: #2b1d0c;
-      font-family: 'MedievalSharp', cursive, serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-image: radial-gradient(circle at center, rgba(30,15,5,0.8), rgba(5,2,1,0.98));
-    }
-
-    #particles-canvas {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 1;
-    }
-
-    .wrapper {
-      position: relative;
-      z-index: 2;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    header {
-      text-align: center;
-      padding: 40px 20px;
-      border-bottom: 3px double var(--gold);
-      background: rgba(15, 10, 6, 0.75);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      margin-bottom: 30px;
-      border-radius: 8px;
-    }
-
-    header h1 {
-      font-family: 'UnifrakturMaguntia', cursive;
-      font-size: 3.5rem;
-      color: var(--gold);
-      text-shadow: 2px 2px 4px #000, 0 0 20px rgba(212, 175, 55, 0.5);
-    }
-
-    header p {
-      color: #d1b894;
-      font-size: 1.2rem;
-      margin-top: 10px;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-      margin-top: 25px;
-    }
-
-    .nav-btn {
-      background: linear-gradient(180deg, #3a2212, #1d0f07);
-      color: var(--gold);
-      border: 2px solid var(--gold-dark);
-      padding: 10px 20px;
-      font-family: 'Cinzel', serif;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-    }
-
-    .nav-btn:hover, .nav-btn.active {
-      background: var(--gold);
-      color: #1a0f07;
-      border-color: #fff;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
-    }
-
-    .section {
-      display: none;
-      background: var(--parchment);
-      border: 8px solid var(--border-wood);
-      outline: 2px solid var(--gold);
-      padding: 30px;
-      border-radius: 6px;
-      box-shadow: inset 0 0 50px rgba(100, 60, 20, 0.4), 0 15px 35px rgba(0,0,0,0.9);
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .section.active { display: block; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--crimson);
-      border-bottom: 2px solid var(--gold-dark);
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-      text-align: center;
-      font-size: 2.2rem;
-    }
-
-    /* FORMULÁRIOS & SELEÇÕES */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-
-    .form-group { margin-bottom: 15px; }
-    label { display: block; font-weight: bold; margin-bottom: 5px; color: #3a2212; }
-    
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      background: #fdf8eb;
-      border: 2px solid var(--border-wood);
-      border-radius: 4px;
-      font-family: inherit;
-      font-size: 1rem;
-    }
-
-    .btn-action {
-      background: linear-gradient(180deg, var(--crimson), #4a0000);
-      color: #fff;
-      border: 2px solid var(--gold);
-      cursor: pointer;
-      font-family: 'Cinzel', serif;
-      font-weight: bold;
-      padding: 12px;
-      transition: background 0.3s;
-    }
-
-    .btn-action:hover {
-      background: #a00000;
-      box-shadow: 0 0 10px rgba(128, 0, 0, 0.6);
-    }
-
-    /* D20 & ARENA DE COMBATE */
-    .arena-container {
-      display: grid;
-      grid-template-columns: 1fr 200px 1fr;
-      gap: 15px;
-      align-items: center;
-      text-align: center;
-    }
-
-    @media (max-width: 800px) { .arena-container { grid-template-columns: 1fr; } }
-
-    .character-card {
-      background: rgba(255, 255, 255, 0.4);
-      border: 2px solid var(--border-wood);
-      padding: 15px;
-      border-radius: 6px;
-    }
-
-    .health-bar, .mana-bar {
-      height: 20px;
-      background: #333;
-      border-radius: 10px;
-      overflow: hidden;
-      margin: 10px 0;
-      border: 1px solid #000;
-    }
-
-    .health-fill { height: 100%; background: #228b22; width: 100%; transition: width 0.3s; }
-    .enemy-health-fill { height: 100%; background: #b22222; width: 100%; transition: width 0.3s; }
-
-    .d20-dice {
-      width: 80px; height: 80px;
-      background: var(--gold);
-      clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 15px;
-      font-size: 2rem;
-      font-weight: bold;
-      color: #000;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .battle-log {
-      background: #1a0f07;
-      color: #d1b894;
-      height: 150px;
-      overflow-y: auto;
-      padding: 10px;
-      margin-top: 20px;
-      border-radius: 4px;
-      font-family: monospace;
-      text-align: left;
-      border: 2px solid var(--gold-dark);
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <!-- Tela de Abertura / Audio Unlock -->
+  <div id="audio-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h2 style="font-family:'UnifrakturMaguntia'; font-size:2.5rem; color:var(--gold)">Entrar nos Portões da Rocha Chueiri</h2>
+      <p style="margin: 15px 0;">Ative o áudio místico ancestral e os pergaminhos da escola para começar sua jornada.</p>
+      <button class="btn-action" onclick="initializeAudioAndEnter()">🔥 Adentrar o Castelo</button>
+    </div>
+  </div>
 
   <canvas id="particles-canvas"></canvas>
 
   <div class="wrapper">
     <header>
       <h1>Escola Mágica Rocha Chueiri</h1>
-      <p>Forjando os Maiores Magos e Guardiões das Montanhas Nebulosas</p>
+      <p>Academia Ancestral das Montanhas Nebulosas • Sob o Domínio do Arquimago Professor</p>
 
       <nav>
-        <button class="nav-btn active" onclick="switchSection('lore')">📜 História</button>
-        <button class="nav-btn" onclick="switchSection('character')">🛡️ Ficha de Mago</button>
-        <button class="nav-btn" onclick="switchSection('grimoire')">📖 Grimório</button>
-        <button class="nav-btn" onclick="switchSection('tournament')">⚔️ Torneio Anual</button>
+        <button class="nav-btn active" onclick="switchTab('lore')">📜 Lore & História</button>
+        <button class="nav-btn" onclick="switchTab('map')">🗺️ Mapa da Escola</button>
+
+<button class="nav-btn" onclick="switchTab('hero')">🛡️ Ficha do Aluno</button>
+        <button class="nav-btn" onclick="switchTab('grimoire')">📖 Grimório Mágico</button>
+        <button class="nav-btn" onclick="switchTab('market')">🎒 Mercado Goblin</button>
+        <button class="nav-btn" onclick="switchTab('arena')">⚔️ Torneio do Arquimago</button>
       </nav>
     </header>
 
-    <!-- SEÇÃO LORE -->
-    <section id="lore" class="section active">
-      <h2>A Ancestral Rocha Chueiri</h2>
-      <p>Escondida entre as montanhas nebulosas onde os ventos uivam feitiços esquecidos, a <strong>Escola Rocha Chueiri</strong> acolhe jovens de todas as raças ancestrais: Elfos, Anões, Orcs e Humanos.</p>
-      <br>
-      <p>Sob a supervisão do lendário <strong>Arquimago Professor</strong>, os alunos aprendem a dominar os elementos e firmar pactos lendários com <em>Grifos dos Ventos, Fênixes do Fogo Imortal e Dragões dos Picos Sagrados</em>.</p>
-      <br>
-      <p>Todos os anos, turmas rivalizam no Torneio Anual em busca de glória, buscando gravar seus nomes no Grande Livro dos Heróis.</p>
+    <!-- SEÇÃO: LORE -->
+    <section id="tab-lore" class="section active">
+      <h2>A Lenda da Rocha Chueiri</h2>
+      <p>Oculta nas profundezas do Pico da Névoa, a <strong>Escola Rocha Chueiri</strong> foi fundada há milênios para unir as raças sob o estandarte do saber arcano. Aqui, elfos, anões, meio-orcs e humanos convivem em harmonia com guardiões ancestrais.</p>
+      
+      <div class="grid-3" style="margin-top:25px;">
+        <div class="card">
+          <h3 style="color:var(--crimson);">🦅 Os Grifos dos Ventos</h3>
+          <p>Mestres dos céus e das acrobacias aéreas. Treinados no Pênsculo Alto para patrulhar as montanhas e atuar no combate rápido.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:#d97706;">🔥 As Fênixes do Fogo Sagrado</h3>
+          <p>Gênios da alquimia e regeneração. Suas penas contêm essência purificadora capaz de curar feridas e canalizar feitiços avassaladores.</p>
+        </div>
+        <div class="card">
+          <h3 style="color:#1d4ed8;">🐉 Os Dragões dos Picos</h3>
+          <p>Força bruta e magias primordiais de gelo e fogo. Apenas os bruxos de mente mais disciplinada conseguem domar a fúria dracônica.</p>
+        </div>
+      </div>
     </section>
 
-    <!-- SEÇÃO FICHA DE PERSONAGEM -->
-    <section id="character" class="section">
-      <h2>Ficha do Aluno</h2>
+    <!-- SEÇÃO: MAPA DA ESCOLA -->
+    <section id="tab-map" class="section">
+      <h2>Locais Emblemáticos do Campus</h2>
+      <div class="grid-2">
+        <div>
+          <div class="card map-location" onclick="showMapDetail('torre')">🏰 Torre do Arquimago Professor</div>
+          <div class="card map-location" onclick="showMapDetail('ninho')">🦅 Ninho dos Grifos & Fênixes</div>
+          <div class="card map-location" onclick="showMapDetail('arena_loc')">🏟️ Coliseu das Provas Anuais</div>
+          <div class="card map-location" onclick="showMapDetail('biblioteca')">📚 Biblioteca dos Pergaminhos Proibidos</div>
+        </div>
+        <div class="card" id="map-detail-box">
+          <h3 id="map-title">Selecione um Local no Mapa</h3>
+          <p id="map-desc">Clique nos locais ao lado para explorar os mistérios escondidos dentro da Escola Rocha Chueiri.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: FICHA DO HEROI -->
+    <section id="tab-hero" class="section">
+      <h2>Ficha de Aluno RPG</h2>
       <div class="grid-2">
         <div>
           <div class="form-group">
-            <label>Nome do Mago / Guerreiro:</label>
-            <input type="text" id="char-name" value="Ignis Pendragon">
+            <label>Nome do Mago/Guerreiro:</label>
+            <input type="text" id="hero-name" value="Ignis Pendragon" onchange="updateHeroData()">
           </div>
           <div class="form-group">
             <label>Raça Ancestral:</label>
-            <select id="char-race">
-              <option>Elfo Místico</option>
-              <option>Anão Rúnico</option>
-              <option>Humano Arcano</option>
-              <option>Meio-Orc Elemental</option>
+            <select id="hero-race" onchange="updateHeroData()">
+              <option value="Elfo">Elfo Místico (+2 Magia)</option>
+              <option value="Anão">Anão Rúnico (+2 Força)</option>
+              <option value="Humano">Humano Arcano (+1 Todos)</option>
+              <option value="Meio-Orc">Meio-Orc Elemental (+2 Agilidade)</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Especialização:</label>
-            <select id="char-class">
-              <option>Invocador de Bestas</option>
-              <option>Mago Elemental</option>
-              <option>Cavaleiro Místico</option>
+            <label>Guardião Escolhido:</label>
+
+<select id="hero-pet" onchange="updateHeroData()">
+              <option value="Grifo">Grifo Veloz</option>
+              <option value="Fênix">Fênix do Fogo</option>
+              <option value="Dragão">Dragão da Rocha</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Montaria Criatura:</label>
-            <select id="char-pet">
-              <option>Grifo Dourado</option>
-              <option>Fênix de Fogo</option>
-              <option>Dragão de Gelo</option>
-            </select>
-          </div>
+          <button class="btn-action" onclick="rollAllStats()">🎲 Rolar Atributos D20</button>
         </div>
 
-        <div class="character-card">
-          <h3>Atributos Mágicos</h3>
-          <p><strong>Força Mística:</strong> <span id="stat-str">14</span></p>
-          <p><strong>Agilidade de Voo:</strong> <span id="stat-agi">16</span></p>
-          <p><strong>Poder Arcano:</strong> <span id="stat-mag">18</span></p>
-          <p><strong>Vida (HP):</strong> 100 / 100</p>
-          <br>
-          <button class="btn-action" onclick="rollStats()">🎲 Rolar Atributos D20</button>
+        <div class="card">
+          <h3 id="hero-display-name">Ignis Pendragon</h3>
+          <p><strong>Raça:</strong> <span id="hero-display-race">Elfo</span></p>
+          <p><strong>Guardião:</strong> <span id="hero-display-pet">Grifo Veloz</span></p>
+          <hr style="margin: 10px 0; border-color: var(--gold-dark);">
+          <p>⚔️ <strong>Força:</strong> <span id="stat-str">14</span></p>
+          <p>⚡ <strong>Agilidade:</strong> <span id="stat-agi">15</span></p>
+          <p>🔮 <strong>Poder Mágico:</strong> <span id="stat-mag">18</span></p>
+          <p>💰 <strong>Moedas de Ouro:</strong> <span id="hero-gold">100</span> MO</p>
         </div>
       </div>
     </section>
 
-    <!-- SEÇÃO GRIMÓRIO -->
-    <section id="grimoire" class="section">
-      <h2>Grimório Mágico</h2>
+    <!-- SEÇÃO: GRIMÓRIO -->
+    <section id="tab-grimoire" class="section">
+      <h2>Grimório Mágico Chueiri</h2>
       <div class="grid-2">
-        <div class="character-card">
-          <h3>🔥 Sopro da Fênix</h3>
-          <p>Causa dano de fogo massivo ao adversário e regenera vida do conjurador.</p>
-          <p><em>Dano: 25-35 HP</em></p>
+        <div>
+          <div class="card map-location" onclick="previewSpell('fogo')">🔥 Chama Solar da Fênix</div>
+          <div class="card map-location" onclick="previewSpell('raio')">⚡ Relâmpago do Grifo</div>
+          <div class="card map-location" onclick="previewSpell('gelo')">❄ Sopro Glacial do Dragão</div>
+          <div class="card map-location" onclick="previewSpell('escudo')">🛡️ Escudo de Runicidade</div>
         </div>
-        <div class="character-card">
-          <h3>⚡ Garra do Grifo</h3>
-          <p>Ataque rápido do alto dos céus que ignora a defesa inimiga.</p>
-          <p><em>Dano: 15-25 HP</em></p>
-        </div>
-        <div class="character-card">
-          <h3>❄️️ Rugido do Dragão</h3>
-          <p>Congela o inimigo por uma rodada e causa dano de área.</p>
-          <p><em>Dano: 20-30 HP</em></p>
-        </div>
-        <div class="character-card">
-          <h3>🛡️ Barreira Arcana Chueiri</h3>
-          <p>Protege o bruxo absorvendo o próximo ataque recebido.</p>
-          <p><em>Efeito: Escudo total</em></p>
+        <div class="card" style="text-align: center;">
+          <h3 id="spell-name">Escolha um Feitiço</h3>
+          <canvas id="spell-preview-canvas" width="200" height="200" style="background:#000; border-radius:50%; margin:15px auto; border:3px solid var(--gold);"></canvas>
+          <p id="spell-desc">Clique nos feitiços à esquerda para visualizar sua energia e efeito de combate.</p>
         </div>
       </div>
     </section>
 
-    <!-- SEÇÃO TORNEIO/COMBATE -->
-    <section id="tournament" class="section">
-      <h2>Grande Torneio do Arquimago</h2>
+    <!-- SEÇÃO: MERCADO GOBLIN -->
+    <section id="tab-market" class="section">
+      <h2>Mercado de Artefatos Goblins</h2>
+      <p style="text-align: center; margin-bottom: 20px;">Sua bolsa de moedas: <strong id="market-gold-display">100</strong> MO</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>🧪 Poção de Mana</h3>
+          <p>Restaura pontos de feitiço na arena.</p>
 
-      <div class="arena-container">
+<p><strong>Preço: 25 MO</strong></p>
+          <button class="btn-action" style="margin-top:10px;" onclick="buyItem('Poção de Mana', 25)">Comprar</button>
+        </div>
+        <div class="card">
+          <h3>📜 Pergaminho de Dano Extra</h3>
+          <p>Aumenta em +5 seu ataque no próximo turno.</p>
+          <p><strong>Preço: 40 MO</strong></p>
+
+<button class="btn-action" style="margin-top:10px;" onclick="buyItem('Pergaminho de Ataque', 40)">Comprar</button>
+        </div>
+        <div class="card">
+          <h3>💎 Anel do Arquimago</h3>
+          <p>Item lendário! Dá +30 de Vida permanente.</p>
+          <p><strong>Preço: 80 MO</strong></p>
+          <button class="btn-action" style="margin-top:10px;" onclick="buyItem('Anel Lendário', 80)">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO: ARENA / TORNEIO -->
+    <section id="tab-arena" class="section">
+      <h2>Torneio Anual do Arquimago Professor</h2>
+
+      <div class="arena-grid">
         <!-- Jogador -->
-        <div class="character-card">
-          <h3 id="player-display-name">Ignis</h3>
-          <p>Guardião da Rocha Chueiri</p>
-          <div class="health-bar"><div class="health-fill" id="player-hp-bar"></div></div>
-          <p>HP: <span id="player-hp">100</span>/100</p>
+        <div class="card">
+          <h3 id="arena-player-name">Ignis</h3>
+          <p>Estudante da Rocha Chueiri</p>
+          <div class="hp-bar-bg"><div id="player-hp-bar" class="hp-bar-fill green" style="width:100%"></div></div>
+          <p>HP: <span id="arena-player-hp">100</span> / 100</p>
         </div>
 
-        <!-- Dado D20 / Ações -->
+        <!-- Dados e Comandos -->
         <div>
-          <div class="d20-dice" id="dice" onclick="rollD20()">D20</div>
-          <button class="btn-action" onclick="attackEnemy()">⚔️ Atacar!</button>
+          <div class="d20-dice" id="d20-dice" onclick="rollD20()">D20</div>
+          <button class="btn-action" onclick="executeCombatTurn('attack')">⚔️ Atacar com Feitiço</button>
+          <button class="btn-action" style="margin-top:8px; background:#1e3a8a;" onclick="executeCombatTurn('heal')">🧪 Tomar Poção</button>
         </div>
 
         <!-- Inimigo -->
-        <div class="character-card">
-          <h3>Dragão de Sombra</h3>
+        <div class="card">
+          <h3>Golem de Magma</h3>
           <p>Desafio do Arquimago</p>
-          <div class="health-bar"><div class="enemy-health-fill" id="enemy-hp-bar"></div></div>
-          <p>HP: <span id="enemy-hp">120</span>/120</p>
+          <div class="hp-bar-bg"><div id="enemy-hp-bar" class="hp-bar-fill red" style="width:100%"></div></div>
+          <p>HP: <span id="arena-enemy-hp">130</span> / 130</p>
         </div>
       </div>
 
       <div class="battle-log" id="battle-log">
-        > Bem-vindo à Arena da Rocha Chueiri! Clique em ATACAR para rolar seu D20 e enfrentar o desafio do Arquimago Professor!
+        > O sinal da Batalha soou! O Arquimago Professor deu início ao Torneio Anual! Role o D20 ou escolha sua ação!
       </div>
     </section>
   </div>
 
-  <script>
-    // TROCA DE ABAS
-    function switchSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
-    }
-
-    // ATRIBUTOS
-    function rollStats() {
-      document.getElementById('stat-str').innerText = Math.floor(Math.random() * 10) + 10;
-      document.getElementById('stat-agi').innerText = Math.floor(Math.random() * 10) + 10;
-      document.getElementById('stat-mag').innerText = Math.floor(Math.random() * 10) + 10;
-      playSound(600, 0.1);
-    }
-
-    // COMBATE RPG
-    let playerHP = 100;
-    let enemyHP = 120;
-
-    function attackEnemy() {
-      if (enemyHP <= 0 || playerHP <= 0) {
-        log("O combate terminou! Reinicie atualizando a página.");
-        return;
-      }
-
-      const diceRoll = Math.floor(Math.random() * 20) + 1;
-      document.getElementById('dice').innerText = diceRoll;
-      playSound(400 + diceRoll * 20, 0.15);
-
-      if (diceRoll >= 10) {
-        const damage = diceRoll + 5;
-        enemyHP = Math.max(0, enemyHP - damage);
-        log(`🎯 Você tirou ${diceRoll} no D20 e causou ${damage} de dano com seu feitiço!`);
-      } else {
-        log(`❌ Você tirou ${diceRoll} no D20 e errou o feitiço!`);
-      }
-
-      // Atualiza HP Inimigo
-      document.getElementById('enemy-hp').innerText = enemyHP;
-      document.getElementById('enemy-hp-bar').style.width = (enemyHP / 120 * 100) + '%';
-
-      if (enemyHP <= 0) {
-        log("🏆 VITÓRIA! Você venceu a prova do Arquimago Professor!");
-        return;
-      }
-
-      // Turno do Inimigo
-      setTimeout(() => {
-        const enemyDamage = Math.floor(Math.random() * 15) + 5;
-        playerHP = Math.max(0, playerHP - enemyDamage);
-        document.getElementById('player-hp').innerText = playerHP;
-        document.getElementById('player-hp-bar').style.width = (playerHP / 100 * 100) + '%';
-        log(`🔥 O Dragão de Sombra contra-atacou causando ${enemyDamage} de dano!`);
-
-        if (playerHP <= 0) {
-          log("💀 Você foi derrotado... Treine mais na Rocha Chueiri!");
-        }
-      }, 1000);
-    }
-
-    function log(msg) {
-      const logBox = document.getElementById('battle-log');
-      logBox.innerHTML += `<br>> ${msg}`;
-      logBox.scrollTop = logBox.scrollHeight;
-    }
-
-    // ÁUDIO SINTETIZADO (Web Audio API)
-    function playSound(freq, duration) {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.frequency.value = freq;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + duration);
-        osc.stop(ctx.currentTime + duration);
-      } catch(e) {}
-    }
-
-    // CANVAS DE PARTICULAS MÁGICAS
-    const canvas = document.getElementById('particles-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    for (let i = 0; i < 50; i++) {
-      particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 2 + 1,
-        color: ['#d4af37', '#1e90ff', '#ff4500'][Math.floor(Math.random() * 3)],
-        speedY: -Math.random() * 1 - 0.2
-      });
-    }
-
-    function animateParticles() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.y += p.speedY;
-        if (p.y < 0) p.y = canvas.height;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      });
-      requestAnimationFrame(animateParticles);
-    }
-    animateParticles();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
